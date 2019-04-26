@@ -55,7 +55,6 @@ def process_data(data, repo):
     repo.store_simple("smoke", status.smoke)
     repo.store_simple("weight", status.weight)
     for frequency, amplitude in status.vibration:
-        log.info(frequency, amplitude)
         repo.store_vibration(frequency, amplitude)
     repo.store_simple("dominant_frequency", status.dominant_frequency)
     repo.commit()
