@@ -67,7 +67,7 @@ def process_fft(data):
     for i in range(0, len(data), 4):
         ampl = get_float(data[i:i+4])
         ampls.append(ampl)
-    return tuple(zip(freqs, ampls))
+    return tuple(zip(freqs, ampls))[3:]
 
 FORMAT_CONS = '%(asctime)s %(name)-12s %(levelname)8s\t%(message)s'
 logging.basicConfig(level=logging.INFO, format=FORMAT_CONS)
