@@ -53,6 +53,8 @@ def process_data(data, repo):
     repo.store_simple("co", status.co)
     repo.store_simple("smoke", status.smoke)
     repo.store_simple("weight", status.weight)
+    for frequency, amplitude in process_fft(data):
+        repo.store_vibration(frequency, amplitude)
     repo.commit()
 
 
@@ -62,7 +64,7 @@ def process_fft(data):
     ampls = []
     for i in range(0, len(data), 4):
         ampls.append(get_float(data[i:i+4]))
-    return freqs, ampls
+    return tuple(zip(freqs, ampls))
 
 FORMAT_CONS = '%(asctime)s %(name)-12s %(levelname)8s\t%(message)s'
 logging.basicConfig(level=logging.INFO, format=FORMAT_CONS)
