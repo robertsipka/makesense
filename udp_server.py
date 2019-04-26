@@ -36,6 +36,7 @@ class HiveStatus:
         self.rain = get_float(data[36:40])
         self.weight = get_float(data[40:44], 2)
         self.light = get_float(data[44:48])
+        self.dominant_frequency = get_float(data[48:52], 2)
         self.vibration = process_fft(data[52:])
 
 def process_data(data, repo):
@@ -55,6 +56,7 @@ def process_data(data, repo):
     repo.store_simple("weight", status.weight)
     for frequency, amplitude in process_fft(data):
         repo.store_vibration(frequency, amplitude)
+    repo.store_simple("dominant_frequency", status.dominant_frequency)
     repo.commit()
 
 

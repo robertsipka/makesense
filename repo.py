@@ -17,13 +17,13 @@ class Repo:
     def store_simple(self, table_name, value):
         time = datetime.datetime.now()
         sql_statement = "INSERT INTO `makesense`.`%s` (`value`, `source`, `time`) VALUES ('%s', '%s', '%s');" % \
-            (table_name, str(value), DEVICE_NAME, time)
+            (table_name, value, DEVICE_NAME, time)
         self.cursor.execute(sql_statement)
 
     def store_vibration(self, frequency, amplitude):
         time = datetime.datetime.now()
         sql_statement = "INSERT INTO `makesense`.`vibration` (`amplitude`, `frequency`, `source`, `time`) VALUES ('%s', '%s', '%s', '%s');" % \
-                (int(amplitude), str(frequency), DEVICE_NAME, time)
+                (amplitude, str(frequency), DEVICE_NAME, time)
         self.cursor.execute(sql_statement)
 
     def commit(self):
