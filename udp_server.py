@@ -53,6 +53,7 @@ def process_data(data, repo):
     repo.store_simple("co", status.co)
     repo.store_simple("smoke", status.smoke)
     repo.store_simple("weight", status.weight)
+    repo.commit()
 
 
 

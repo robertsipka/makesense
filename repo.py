@@ -24,6 +24,9 @@ class Repo:
                     (int(amplitude), int(frequency), DEVICE_NAME, time)
         self.cursor.execute(sql_statement)
 
+    def commit(self):
+        self.mydb.commit()
+
     def close(self):
         self.cursor.close()
         self.mydb.commit()
