@@ -20,10 +20,9 @@ class Repo:
         self.cursor.execute(sql_statement)
 
     def store_vibration(self, frequency, amplitude, time=datetime.datetime.now()):
-        for _ in range(int(amplitude)):
-            sql_statement = "INSERT INTO `makesense`.`vibration` (`amplitude`, `frequency`, `source`, `time`) VALUES ('%s', '%s', '%s', '%s');" % \
-                (1, frequency, DEVICE_NAME, time)
-            self.cursor.execute(sql_statement)
+        sql_statement = "INSERT INTO `makesense`.`vibration` (`amplitude`, `frequency`, `source`, `time`) VALUES ('%s', '%s', '%s', '%s');" % \
+                    (int(amplitude), int(frequency), DEVICE_NAME, time)
+        self.cursor.execute(sql_statement)
 
     def close(self):
         self.cursor.close()
