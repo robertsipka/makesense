@@ -12,9 +12,10 @@ class MySqlRepo:
             host="18.194.96.218",
             auth_plugin='mysql_native_password'
         )
-        self.cursor = self.mydb.cursor()
+
 
     def store(self, status):
+        self.cursor = self.mydb.cursor()
         self.store_simple("boxlid", status.openness)
         self.store_simple("light", status.light)
         self.store_simple("rain", status.rain)
@@ -30,17 +31,18 @@ class MySqlRepo:
         for vibration in status.vibrations:
             self.store_vibration(vibration.frequency, vibration.amplitude)
         self.store_simple("dominant_frequency", status.dominant_frequency)
+        self.cursor.close()
         self.commit()
 
     def store_simple(self, table_name, value):
         time = datetime.datetime.now()
-        sql_statement = "INSERT INTO `makesense`.`%s` (`value`, `source`, `time`) VALUES ('%s', '%s', '%s');" % \
+        sql_statement = "INSERT INTO `makesense2`.`%s` (`value`, `source`, `time`) VALUES ('%s', '%s', '%s');" % \
             (table_name, value, DEVICE_NAME, time)
         self.cursor.execute(sql_statement)
 
     def store_vibration(self, frequency, amplitude):
         time = datetime.datetime.now()
-        sql_statement = "INSERT INTO `makesense`.`vibration` (`amplitude`, `frequency`, `source`, `time`) VALUES ('%s', '%s', '%s', '%s');" % \
+        sql_statement = "INSERT INTO `makesense2`.`vibration` (`amplitude`, `frequency`, `source`, `time`) VALUES ('%s', '%s', '%s', '%s');" % \
                 (amplitude, str(frequency), DEVICE_NAME, time)
         self.cursor.execute(sql_statement)
 
@@ -48,5 +50,4 @@ class MySqlRepo:
         self.mydb.commit()
 
     def close(self):
-        self.cursor.close()
         self.mydb.commit()
