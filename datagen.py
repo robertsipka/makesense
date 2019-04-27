@@ -1,4 +1,4 @@
-from repo import Repo
+from repo import MySqlRepo
 import datetime
 import random
 
@@ -21,7 +21,7 @@ def random_temp():
 
 
 def generate():
-    repo = Repo()
+    repo = MySqlRepo()
     start_time = datetime.datetime.now() - datetime.timedelta(hours=5)
     end_time = datetime.datetime.now()
     for timestamp in generate_datetimes(start_time, end_time):

@@ -1,5 +1,4 @@
 import mysql.connector
-import datetime
 
 DEVICE_NAME = "device"
 
@@ -16,33 +15,32 @@ class MySqlRepo:
 
     def store(self, status):
         self.cursor = self.mydb.cursor()
-        self.store_simple("boxlid", status.openness)
-        self.store_simple("light", status.light)
-        self.store_simple("rain", status.rain)
-        self.store_simple("inside_temperature", status.inside_temp)
-        self.store_simple("humidity", status.inside_humidity)
-        self.store_simple("outside_temperature", status.outside_temp)
-        self.store_simple("airpressure", status.outside_pressure)
-        self.store_simple("height", status.altitude)
-        self.store_simple("lpg", status.lpg)
-        self.store_simple("co", status.co)
-        self.store_simple("smoke", status.smoke)
-        self.store_simple("weight", status.weight)
+        time = status.time
+        self.store_simple("boxlid", status.openness, time)
+        self.store_simple("light", status.light, time)
+        self.store_simple("rain", status.rain, time)
+        self.store_simple("inside_temperature", status.inside_temp, time)
+        self.store_simple("humidity", status.inside_humidity, time)
+        self.store_simple("outside_temperature", status.outside_temp, time)
+        self.store_simple("airpressure", status.outside_pressure, time)
+        self.store_simple("height", status.altitude, time)
+        self.store_simple("lpg", status.lpg, time)
+        self.store_simple("co", status.co, time)
+        self.store_simple("smoke", status.smoke, time)
+        self.store_simple("weight", status.weight, time)
         for vibration in status.vibrations:
-            self.store_vibration(vibration.frequency, vibration.amplitude)
-        self.store_simple("dominant_frequency", status.dominant_frequency)
-        self.store_simple("activity", status.activity)
+            self.store_vibration(vibration.frequency, vibration.amplitude, time)
+        self.store_simple("dominant_frequency", status.dominant_frequency, time)
+        self.store_simple("activity", status.activity, time)
         self.cursor.close()
         self.commit()
 
-    def store_simple(self, table_name, value):
-        time = datetime.datetime.now()
+    def store_simple(self, table_name, value, time):
         sql_statement = "INSERT INTO `makesense2`.`%s` (`value`, `source`, `time`) VALUES ('%s', '%s', '%s');" % \
             (table_name, value, DEVICE_NAME, time)
         self.cursor.execute(sql_statement)
 
-    def store_vibration(self, frequency, amplitude):
-        time = datetime.datetime.now()
+    def store_vibration(self, frequency, amplitude, time):
         sql_statement = "INSERT INTO `makesense2`.`vibration` (`amplitude`, `frequency`, `source`, `time`) VALUES ('%s', '%s', '%s', '%s');" % \
                 (amplitude, str(frequency), DEVICE_NAME, time)
         self.cursor.execute(sql_statement)

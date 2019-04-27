@@ -2,6 +2,7 @@ import logging
 import socket
 import struct
 import repo
+import datetime
 
 log = logging.getLogger('udp_server')
 
@@ -31,6 +32,7 @@ def calculate_activity(vibrations):
 
 class HiveStatus:
     def __init__(self, data):
+        self.time = datetime.datetime.now()
         self.openness = get_float(data[0:4])
         self.lpg = get_float(data[4:8])
         self.co = get_float(data[8:12])
