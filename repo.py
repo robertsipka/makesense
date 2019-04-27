@@ -31,6 +31,7 @@ class MySqlRepo:
         for vibration in status.vibrations:
             self.store_vibration(vibration.frequency, vibration.amplitude)
         self.store_simple("dominant_frequency", status.dominant_frequency)
+        self.store_simple("activity", status.activity)
         self.cursor.close()
         self.commit()
 

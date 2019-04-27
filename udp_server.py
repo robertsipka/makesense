@@ -25,6 +25,10 @@ def get_int(bytes):
     return int.from_bytes(bytes, byteorder="big", signed=True)
 
 
+def calculate_activity(vibrations):
+    return sum(map(lambda vibration: vibration.amplitude, vibrations))
+
+
 class HiveStatus:
     def __init__(self, data):
         self.openness = get_float(data[0:4])
@@ -41,6 +45,7 @@ class HiveStatus:
         self.light = get_float(data[44:48])
         self.dominant_frequency = get_float(data[48:52], 2)
         self.vibrations = process_fft(data[52:])
+        self.activity = calculate_activity(self.vibrations)
 
 
 class Vibration:
